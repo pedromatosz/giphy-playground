@@ -1,6 +1,5 @@
 .home {
   .search {
-    position: relative;
     margin: 25px 5px;
 
     @media (min-width: 769px) {
@@ -8,26 +7,94 @@
       margin: 48px auto;
     }
 
+    .controls {
+      position: relative;
+      display: flex;
+      flex-flow: row nowrap;
+      width: 90%;
+      margin: 0 auto;
 
-    .search_icon {
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      opacity: 0.6;
-      top: 2px;
-      left: 2px;
+      .search_icon {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        opacity: 0.6;
+        top: 2px;
+        left: 2px;
+      }
+
+      .search_field {
+        &[type=text] {
+          width: 100%;
+          padding: 5px 5px 5px 25px;
+          border-radius: 2px;
+          border: 1px solid grey;
+
+          @media (min-width: 769px) {
+            width: 768px;
+          }
+        }
+      }
+
+      .search_button {
+        margin-left: 10px;
+        border: none;
+        background: #209CEE;
+        color: #AF5;
+        border-radius: 2px;
+        cursor: pointer;
+      }
     }
 
-    .search_field {
-      &[type=text] {
-        width: 100%;
-        padding: 5px 5px 5px 25px;
-        border-radius: 5px;
-        border: 1px solid grey;
+    .extra_buttons {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-end;
+      margin: 8px 5% 0 0;
 
-        @media (min-width: 769px) {
-          width: 768px;
-        }
+      .control_button {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        margin-left: 5px;
+        border: none;
+        background: #209CEE;
+        color: #AF5;
+        font-weight: bold;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 300px;
+    margin: 24px auto;
+
+    .pagination__invisible_button {
+      height: 50px;
+      width: 80px;
+      opacity: 0;
+    }
+
+    .pagination__current_page {
+      margin-top: 15px;
+    }
+
+    .pagination__button {
+      height: 50px;
+      width: 80px;
+      cursor: pointer;
+      border: none;
+      background: #209CEE;
+      color: #AF5;
+
+      .pagination_button__icon {
+        width: 24px;
+        height: 24px;
       }
     }
   }

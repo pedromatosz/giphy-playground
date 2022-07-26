@@ -2,7 +2,7 @@ import React from 'react'
 import S from './style.module.scss'
 import { Link } from 'react-router-dom'
 
-export const Header: React.FC = () => {
+export const HomeHeader: React.FC = () => {
   return (
     <nav className={S.home__header}>
       <div className={S.header__logo}>

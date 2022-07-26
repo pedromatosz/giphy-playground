@@ -3,18 +3,16 @@ import { Gif } from '../hooks/favoritesContext/types'
 const GIPHY_API_KEY = process.env.REACT_APP_GIPHY_API_KEY
 const GIPHY_BASE_URL = 'https://api.giphy.com/'
 const GIFS_PATH = 'v1/gifs'
-const DEFAULT_LIMIT = 10
+export const DEFAULT_LIMIT = 12
 
-const getGiphyUrl = (queryType: string, limit: number, offset: number) =>
-  `${GIPHY_BASE_URL}${GIFS_PATH}/${queryType}?api_key=${GIPHY_API_KEY}&limit=${limit}&offset=${offset}`
+const getGiphyUrl = (queryType: string) => `${GIPHY_BASE_URL}${GIFS_PATH}/${queryType}?api_key=${GIPHY_API_KEY}`
 
 const mapRawDataToGif = (data: any): Gif => {
   return {
     id: data.id,
     title: data.title,
-    author: data.username,
-    url: data.url,
-    favorite: false
+    author: data.username || 'Unknown',
+    url: data.images.original.url
   }
 }
 
@@ -24,22 +22,22 @@ const sanitizeGifResponse = async (response: any): Promise<Gif[]> => {
 }
 
 export const GifApi = {
-  trending: async (limit: number = DEFAULT_LIMIT, offset: number = 0): Promise<Gif[]> => {
-    const response = await fetch(getGiphyUrl('trending', limit, offset))
+  trending: async (offset: number = 0, limit: number = DEFAULT_LIMIT): Promise<Gif[]> => {
+    const response = await fetch(getGiphyUrl('trending') + `&limit=${limit}&offset=${offset}&rating=g`)
     return sanitizeGifResponse(response)
   },
-  search: async (query: string, limit: number = DEFAULT_LIMIT, offset: number = 0): Promise<Gif[]> => {
-    const response = await fetch(getGiphyUrl('search', limit, offset) + `&q=${query}`)
+  search: async (query: string, offset: number = 0, limit: number = DEFAULT_LIMIT): Promise<Gif[]> => {
+    const response = await fetch(getGiphyUrl('search') + `&limit=${limit}&offset=${offset}&q=${query}`)
     return sanitizeGifResponse(response)
   },
-  random: async (query: string, limit: number = DEFAULT_LIMIT, offset: number = 0): Promise<Gif> => {
-    const response = await fetch(getGiphyUrl('random', limit, offset) + `&tag=${query}`)
+  random: async (query: string): Promise<Gif[]> => {
+    const response = await fetch(getGiphyUrl('random') + `&tag=${query}`)
     const { data } = await response.json()
-    return mapRawDataToGif(data)
+    return [mapRawDataToGif(data)]
   },
-  translate: async (query: string, limit: number = DEFAULT_LIMIT, offset: number = 0): Promise<Gif> => {
-    const response = await fetch(getGiphyUrl('translate', limit, offset) + `&s=${query}`)
+  translate: async (query: string): Promise<Gif[]> => {
+    const response = await fetch(getGiphyUrl('translate') + `&s=${query}`)
     const { data } = await response.json()
-    return mapRawDataToGif(data)
+    return [mapRawDataToGif(data)]
   }
 }
