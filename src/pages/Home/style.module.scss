@@ -1,0 +1,36 @@
+.home {
+  .search {
+    position: relative;
+    margin: 25px 5px;
+
+    @media (min-width: 769px) {
+      width: 768px;
+      margin: 48px auto;
+    }
+
+
+    .search_icon {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      opacity: 0.6;
+      top: 2px;
+      left: 2px;
+    }
+
+    .search_field {
+      &[type=text] {
+        width: 100%;
+        padding: 5px 5px 5px 25px;
+        border-radius: 5px;
+        border: 1px solid grey;
+
+        @media (min-width: 769px) {
+          width: 768px;
+        }
+      }
+    }
+  }
+}
+
+
