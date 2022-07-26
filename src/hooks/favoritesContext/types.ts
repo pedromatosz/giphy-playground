@@ -5,7 +5,6 @@ export type Gif = {
   title: string
   author: string
   url: string
-  favorite: boolean
 }
 
 export type Favorites = { [key: string]: Gif }

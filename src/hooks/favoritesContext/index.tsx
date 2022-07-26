@@ -4,9 +4,9 @@ import { Favorites, Gif, IFavoritesContext, IFavoritesProvider } from './types'
 const FavoritesContext = createContext<IFavoritesContext>({} as IFavoritesContext)
 
 export const FavoritesProvider: React.FC<IFavoritesProvider> = ({ children }) => {
-  const LOCAL_STORAGE_KEY = 'favorites'
+  const FAVORITES_STORAGE_KEY = 'favorites'
   const [favorites, setFavorites] = useState<Favorites>(() => {
-    const persistedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY)
+    const persistedFavorites = localStorage.getItem(FAVORITES_STORAGE_KEY)
 
     if (persistedFavorites) {
       return JSON.parse(persistedFavorites)
@@ -17,16 +17,15 @@ export const FavoritesProvider: React.FC<IFavoritesProvider> = ({ children }) =>
 
   const addFavorite = (gif: Gif): void => {
     const updatedFavorites = { ...favorites, [gif.id]: gif }
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites))
-    setFavorites(updatedFavorites)
+    localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(updatedFavorites))
+    setFavorites({ ...favorites, ...updatedFavorites })
   }
 
   const removeFavorite = (id: string): void => {
     const favoritesCopy = favorites
     delete favoritesCopy[id]
-
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(favoritesCopy))
-    setFavorites(favoritesCopy)
+    localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favoritesCopy))
+    setFavorites({ ...favorites, ...favoritesCopy })
   }
 
   return (
